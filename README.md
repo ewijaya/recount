@@ -55,14 +55,14 @@ Maximum allowable number of mismatch is 2. Note that the running time
 and space requirement of RECOUNT using mismatch 2 is quadratic compare
 to using mismatch 1. For 2 mismatches option, you may reduce the 
 space and running time requirement by setting the error error probability
-bar under a variable in recount.pl.
+bar under a variable in `recount.pl`.
 
 
 ## Additional data pre-processing softwares 
 Illumina's pipeline generated two types of data: sequence (seq) and quality score
 (prb). In this package we provide several types of  additional softwares. 
 
-a. AverageTagsQuals_seq_prb takes the input of the
+  a. `AverageTagsQuals_seq_prb` takes the input of the
 following format:
 
 ```
@@ -86,8 +86,7 @@ The command is simply:
 ./AverageTagsQuals [sorted_seq_prb_file] 
 ```
 
-b. PickBaseQual takes the output of AverageTagsQuals above and 
-produce the following result:
+  b. `PickBaseQual` takes the output of `AverageTagsQuals` above and  produce the following result:
 
 ```
 3 AAA 30 23.33 33.33
@@ -101,10 +100,10 @@ The command is simply:
 
 Sometimes the data does not come in PRB format, but in FASTQ
 where the each base in the tag has only one corresponding quality score.
-For that reason we also provide another version of AverageTagsQuals_seq-prb
+For that reason we also provide another version of `AverageTagsQuals_seq-prb`
 which only average out based on single quality value of each base in the tag.
 
-c. AverageTagsQuals takes the input of the following format:
+  c. `AverageTagsQuals` takes the input of the following format:
 
 ```
 AAA  40 40 40 
@@ -113,9 +112,7 @@ AAA  20 20 40
 AAC  40 40 40
 ```
 
-We call this SEQ-QUAL format.
-
-And the output is:
+We call this SEQ-QUAL format. And the output is:
 ```
 3 AAA  30  23.33 33.33 
 1 AAC  40  40 40
