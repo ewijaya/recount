@@ -58,7 +58,7 @@ space and running time requirement by setting the error error probability
 bar under a variable in recount.pl.
 
 
-## 6. Additional data pre-processing softwares 
+## Additional data pre-processing softwares 
 Illumina's pipeline generated two types of data: sequence (seq) and quality score
 (prb). In this package we provide several types of  additional softwares. 
 
@@ -159,16 +159,21 @@ Finally we can run Recount at the final output
 perl recount.pl [seq-prb-file-LEN-avg]
 ```
 
+## Publication
+
+Recount: expectation maximization based error correction tool for next
+generation sequencing data.*Genome Inform.* (2009);23(1):189-201.
+[PMID:20180274](http://www.ncbi.nlm.nih.gov/pubmed/20180274).
 
 
-## Credits and Citation 
+## Credits 
 RECOUNT is developed in C++ by Edward Wijaya in the 
 Computational Biology Research Center (CBRC) - AIST.
-The EM algorithm is based on (Beissbarth. et.al 
-Bioinformatics (20),  i31-39, 2007). 
+The EM algorithm is based on (*Beissbarth. et.al 
+Bioinformatics (20),  i31-39, 2007*). 
 
 
 ## Questions, Comments, Problems 
-Email: e-wijaya@gmail.com/ewijaya@ifrec.osaka-u.ac.jp or p-horton@aist.go.jp
+Email: e-wijaya@gmail.com; ewijaya@ifrec.osaka-u.ac.jp or p-horton@aist.go.jp
 If reporting the problem, please describe exactly how to trigger
 the problem.
