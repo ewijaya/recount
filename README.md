@@ -174,6 +174,6 @@ Bioinformatics (20),  i31-39, 2007*).
 
 
 ## Questions, Comments, Problems 
-Email: e-wijaya@gmail.com; ewijaya@ifrec.osaka-u.ac.jp or p-horton@aist.go.jp
+Email: ewijaya@gmail.com; ewijaya@ifrec.osaka-u.ac.jp or p-horton@aist.go.jp.
 If reporting the problem, please describe exactly how to trigger
 the problem.
