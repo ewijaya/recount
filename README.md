@@ -158,7 +158,7 @@ perl recount.pl [seq-prb-file-LEN-avg]
 
 ## Publication
 
-_Edward Wijaya_, Martin C. Frith, Yutaka Suzuki, Paul Horton, *Recount: expectation maximization based error correction tool for next
+Edward Wijaya, Martin C. Frith, Yutaka Suzuki, Paul Horton, *Recount: expectation maximization based error correction tool for next
 generation sequencing data*, (2009) Genome Inform. 23(1):189-201.
 [PMID:20180274](http://www.ncbi.nlm.nih.gov/pubmed/20180274).
 
