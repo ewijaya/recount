@@ -158,8 +158,8 @@ perl recount.pl [seq-prb-file-LEN-avg]
 
 ## Publication
 
-Recount: expectation maximization based error correction tool for next
-generation sequencing data.*Genome Inform.* (2009);23(1):189-201.
+_Edward Wijaya_, Martin C. Frith, Yutaka Suzuki, Paul Horton, *Recount: expectation maximization based error correction tool for next
+generation sequencing data*, (2009) Genome Inform. 23(1):189-201.
 [PMID:20180274](http://www.ncbi.nlm.nih.gov/pubmed/20180274).
 
 
