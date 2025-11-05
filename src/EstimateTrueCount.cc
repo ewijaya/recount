@@ -112,31 +112,7 @@ double getMainTagPropMeanScaled(const std::vector < double >&arg) {
 	return max(0.01,min(1.00,(1.00 - mainTagProp)));
 }
 
-
-vector <pair <int,int> > getIndexFromVector(const std::vector <string> &nbNt, const std::vector<string> &arg) {
-    vector <pair< int, int> > foundIndex;
-
-    for (unsigned i=0; i < nbNt.size() ; i++) {
-
-        //cout << i ;
-        for (unsigned j=0; j <arg.size() ; j++) {
-                 
-           //cout << "\t"  << nbNt[i] << "," << arg[j] << " " << j <<  endl;
-           
-           if ( nbNt[i] == arg[j]) {
-                 
-                 //cout << "\t"  << nbNt[i] << "," << arg[j] << " " << j <<  endl;
-                 pair <int,int> tuple = make_pair(i,j);
-                 foundIndex.push_back(tuple); 
-           }
-
-        }
-
-    }
-
-    return foundIndex;
-}
-
+// REMOVED: getIndexFromVector() - O(n²) complexity, replaced by getIndexFromMap() below
 
 vector <pair <int,int> > getIndexFromMap(const std::vector <string> &nbNt, const std::map<string,int>&m) {
     vector <pair< int, int> > foundIndex;
@@ -169,7 +145,7 @@ vector <double> getPropSum(const std::vector < string >&neigb, const map<string,
             double value = 0;
 
             if ( iter != m.end()  ){
-                value = iter->second;
+                value = iter->second;  // Optimized: use iterator instead of redundant lookup
             }
             propVec.push_back(value);
             //cout << neigb[i] << " " << value << endl;
@@ -204,13 +180,13 @@ vector <double> getNumTagProp(const std::vector < string >&neigb, const map<stri
             double value = 0;
 
             if ( iter != m.end()  ){
-                value = iter->second;
+                value = iter->second;  // Optimized: use iterator instead of redundant lookup
             }
             propVec.push_back(value);
             //cout << neigb[i] << " " << value << endl;
     }
 
-    
+
     return propVec;
 }
 

@@ -146,7 +146,7 @@ int main  ( int arg_count, char *arg_vec[] ) {
 
     vector<string>  DNAStrings;
 
-    // Create lookup table once outside loop for better performance
+    // Optimized: Create lookup map once before loop instead of recreating for each line
     map<char, int> lookup;
     lookup['A'] = 0;
     lookup['C'] = 1;
