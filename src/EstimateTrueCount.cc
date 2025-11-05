@@ -23,7 +23,7 @@ using namespace std;
 
 
 
-double computeLogLik(std::vector <double> &m, std::vector <double> &p, double &lmbd) {
+double computeLogLik(const std::vector <double> &m, const std::vector <double> &p, double lmbd) {
 
         double Result = 0;
         for (unsigned i = 0; i < p.size(); i++) {
@@ -34,9 +34,10 @@ double computeLogLik(std::vector <double> &m, std::vector <double> &p, double &l
 
 }
 
-vector <double> multiplyVecWithVecCorsp(std::vector <double> &Vec1,  std::vector <double> &Vec2) {
+vector <double> multiplyVecWithVecCorsp(const std::vector <double> &Vec1,  const std::vector <double> &Vec2) {
 
     vector<double>  Result;
+    Result.reserve(Vec1.size());
 
     for (unsigned i=0; i<Vec1.size(); i++) {
         double Res = Vec1[i]*Vec2[i];
@@ -45,9 +46,10 @@ vector <double> multiplyVecWithVecCorsp(std::vector <double> &Vec1,  std::vector
 
     return Result;
 }
-vector <double> divideVecWithVecCorsp(std::vector <double> &Vec1,  std::vector <double> &Vec2) {
+vector <double> divideVecWithVecCorsp(const std::vector <double> &Vec1,  const std::vector <double> &Vec2) {
 
     vector<double>  Result;
+    Result.reserve(Vec1.size());
 
     for (unsigned i=0; i<Vec1.size(); i++) {
         double Res = Vec1[i]/Vec2[i];
@@ -57,9 +59,10 @@ vector <double> divideVecWithVecCorsp(std::vector <double> &Vec1,  std::vector <
     return Result;
 }
 
-vector <double> divideVecWithScalar(std::vector <double> &Vec,  double &theC) {
+vector <double> divideVecWithScalar(const std::vector <double> &Vec,  double theC) {
 
     vector<double>  Result;
+    Result.reserve(Vec.size());
 
     for (unsigned i=0; i<Vec.size(); i++) {
         double Res = Vec[i]/theC;
@@ -69,10 +72,10 @@ vector <double> divideVecWithScalar(std::vector <double> &Vec,  double &theC) {
     return Result;
 }
 
-vector <double> sparseM_vec_prod(vector <double> &p, 
-                        std::vector<int> &rowId, 
-                        std::vector<int> &colId, 
-                        std::vector<double> &realVal) {
+vector <double> sparseM_vec_prod(const vector <double> &p,
+                        const std::vector<int> &rowId,
+                        const std::vector<int> &colId,
+                        const std::vector<double> &realVal) {
 
 
      std::vector <double> Result;
@@ -87,7 +90,7 @@ vector <double> sparseM_vec_prod(vector <double> &p,
 }
 
 
-double getMainTagPropInit(std::vector < double >&arg) {
+double getMainTagPropInit(const std::vector < double >&arg) {
 
 	double mainTagProp = 0;
 
@@ -98,7 +101,7 @@ double getMainTagPropInit(std::vector < double >&arg) {
 	return max(0.01,(1 - mainTagProp));
 }
 
-double getMainTagPropMeanScaled(std::vector < double >&arg) {
+double getMainTagPropMeanScaled(const std::vector < double >&arg) {
 
 	double mainTagProp = 0;
 
@@ -110,7 +113,7 @@ double getMainTagPropMeanScaled(std::vector < double >&arg) {
 }
 
 
-vector <pair <int,int> > getIndexFromVector(std::vector <string> &nbNt, std::vector<string> &arg) {
+vector <pair <int,int> > getIndexFromVector(const std::vector <string> &nbNt, const std::vector<string> &arg) {
     vector <pair< int, int> > foundIndex;
 
     for (unsigned i=0; i < nbNt.size() ; i++) {
@@ -135,13 +138,13 @@ vector <pair <int,int> > getIndexFromVector(std::vector <string> &nbNt, std::vec
 }
 
 
-vector <pair <int,int> > getIndexFromMap(std::vector <string> &nbNt, std::map<string,int>&m) {
+vector <pair <int,int> > getIndexFromMap(const std::vector <string> &nbNt, const std::map<string,int>&m) {
     vector <pair< int, int> > foundIndex;
 
     for (unsigned i=0; i < nbNt.size() ; i++) {
 
 
-        map<string,int>::iterator iter = m.find(nbNt[i]);
+        map<string,int>::const_iterator iter = m.find(nbNt[i]);
 
         if ( iter != m.end()) {
             int j = iter->second; 
@@ -154,7 +157,7 @@ vector <pair <int,int> > getIndexFromMap(std::vector <string> &nbNt, std::map<st
     return foundIndex;
 }
 
-vector <double> getPropSum(std::vector < string >&neigb, map<string,double>&m ) {
+vector <double> getPropSum(const std::vector < string >&neigb, const map<string,double>&m ) {
 
     vector <double> propVec;
 
@@ -162,11 +165,11 @@ vector <double> getPropSum(std::vector < string >&neigb, map<string,double>&m ) 
     // from the map, otherwise return zero
 
     for ( unsigned i= 0; i<neigb.size()  ;i++ ) {
-        map<string,double>::iterator iter = m.find(neigb[i]);
+        map<string,double>::const_iterator iter = m.find(neigb[i]);
             double value = 0;
 
             if ( iter != m.end()  ){
-                value = m[neigb[i]];
+                value = iter->second;
             }
             propVec.push_back(value);
             //cout << neigb[i] << " " << value << endl;
@@ -189,7 +192,7 @@ vector <double> getPropSum(std::vector < string >&neigb, map<string,double>&m ) 
     return pSum;
 }
 
-vector <double> getNumTagProp(std::vector < string >&neigb, map<string,double>&m ) {
+vector <double> getNumTagProp(const std::vector < string >&neigb, const map<string,double>&m ) {
 
     vector <double> propVec;
 
@@ -197,11 +200,11 @@ vector <double> getNumTagProp(std::vector < string >&neigb, map<string,double>&m
     // from the map, otherwise return zero
 
     for ( unsigned i= 0; i<neigb.size()  ;i++ ) {
-        map<string,double>::iterator iter = m.find(neigb[i]);
+        map<string,double>::const_iterator iter = m.find(neigb[i]);
             double value = 0;
 
             if ( iter != m.end()  ){
-                value = m[neigb[i]];
+                value = iter->second;
             }
             propVec.push_back(value);
             //cout << neigb[i] << " " << value << endl;
