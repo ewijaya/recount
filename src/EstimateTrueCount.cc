@@ -425,14 +425,16 @@ int main  ( int arg_count, char *arg_vec[] ) {
                     groupIndex += 3;
                 }
 
-               MainTagProp =  getMainTagPropMeanScaled(rTagsQual); 
-               vector <pair <int,int> > indexInOrd = getIndexFromMap(nbnumTags,ordNumTagsMap); 
-                
+               MainTagProp =  getMainTagPropMeanScaled(rTagsQual);
+               vector <pair <int,int> > indexInOrd = getIndexFromMap(nbnumTags,ordNumTagsMap);
+
                 vector < vector <int> > indexInOrdLineNo;
+                indexInOrdLineNo.reserve(indexInOrd.size());
                 for (unsigned k = 0 ; k < indexInOrd.size(); k++) {
                     pair <int,int> tpl = indexInOrd[k];
                     //cout << tpl.first << "-" << tpl.second << endl;
                     vector <int> temp;
+                    temp.reserve(3);
                     temp.push_back(tpl.first);
                     temp.push_back(lineno++);
                     temp.push_back(tpl.second);
@@ -561,22 +563,26 @@ int main  ( int arg_count, char *arg_vec[] ) {
 
  double lambda = double(lineno_);
  int maxStep = 50;
- 
+
  vector <double> nCount = rawCount;
  vector <double> theM   = rawCount;
+
+ // Pre-allocate vectors outside loop to avoid repeated allocations
+ vector <double> theP;
+ vector <double> sparseM_prod_P;
+ vector <double> rSums;
+ vector <double> tsparseM_prod_rSums;
+ theP.reserve(theM.size());
+ sparseM_prod_P.reserve(theM.size());
+ rSums.reserve(theM.size());
+ tsparseM_prod_rSums.reserve(theM.size());
 
  for (int m = 0; m < maxStep; m++) {
      //cout << "Step " << m << endl;
 
-     vector <double> thePM; 
-     vector <double> theP; 
-     vector <double> sparseM_prod_P; 
-     vector <double> rSums;
-     vector <double> tsparseM_prod_rSums;
      double logLik;
-      
-     thePM               = theM;
-     theP                = divideVecWithScalar(theM,lambda); 
+
+     theP                = divideVecWithScalar(theM,lambda);
      sparseM_prod_P      = sparseM_vec_prod(theP,IA,JA,RA);
      rSums               = divideVecWithVecCorsp(nCount,sparseM_prod_P);
      tsparseM_prod_rSums = sparseM_vec_prod(rSums,JA,IA,RA);
