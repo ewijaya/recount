@@ -6,17 +6,28 @@ Typical application of this software is for transcriptome or
 metagenomic expression analysis.
 
 
-## Requirement 
-To handle around 20 million reads of length 34, using 1 Hamming distance 
-neighbors you will need at least 10 gigabytes of disk space. To install
-the software you need a C++ compiler.
+## Requirements
+- **C++ compiler** (for compiling the core binaries)
+- **Python 3.6+** (for the enhanced wrapper - optional but recommended)
+- **Perl** (for legacy wrapper - optional)
+
+To handle around 20 million reads of length 34, using 1 Hamming distance
+neighbors you will need at least 10 gigabytes of disk space.
 
 
-## Installation 
-Type `make` in the `/src` directory. It should make two groups of programs:
+## Installation
 
-1. Components of RECOUNT: `FindNeighboursWithQual`, `GenerateProportion` and `EstimateTrueCount`.
-2. Additional preprocessing programs: `AverageTagsQuals_27`, `AverageTagsQuals_36` and `PickBaseQual`
+1. Compile the C++ binaries:
+   ```bash
+   cd src/
+   make
+   ```
+
+This will create two groups of programs:
+- **Core RECOUNT components:** `FindNeighboursWithQual`, `GenerateProportion`, and `EstimateTrueCount`
+- **Preprocessing tools:** `AverageTagsQuals_*`, `PickBaseQual`, etc.
+
+2. The Python and Perl wrappers are ready to use immediately (no compilation needed)
 
 
 ## Input format 
@@ -35,27 +46,53 @@ and third column to the end is the *average* quality score of each bases
 in the corresponding read. 
 
 
-## Usage 
+## Usage
 
-You can run recount by executing the wrapper written in Perl.
-The command is simply:
+### Python Wrapper (Recommended)
 
+The enhanced Python wrapper provides better error handling, logging, and flexibility:
 
+```bash
+# Basic usage
+python3 recount.py <input_file> <num_mismatches>
+
+# Examples
+python3 recount.py test-data.txt 1
+python3 recount.py test-data.txt 2 --verbose
+python3 recount.py data.txt 1 --keep-temp --min-base-error 0.001
+python3 recount.py data.txt 2 --output-dir ./results
 ```
-perl recount.pl [input] [no_of_neighbor_mismatch]
-```
 
-For example:
+**Available options:**
+- `--verbose, -v`: Enable detailed logging for debugging
+- `--keep-temp`: Keep temporary files (.nb, .prop, .nbq) after completion
+- `--min-base-error FLOAT`: Minimum base error probability (default: 0.00262689)
+- `--src-path PATH`: Custom path to binaries directory (default: ./src)
+- `--output-dir PATH`: Directory for output files (default: same as input)
+- `--dry-run`: Show what would be executed without running
+- `--help`: Show complete help message
 
-```
+### Perl Wrapper (Backwards Compatible)
+
+The original Perl interface is maintained for backwards compatibility:
+
+```bash
+perl recount.pl <input_file> <num_mismatches>
+
+# Example
 perl recount.pl test-data.txt 1
 ```
 
-Maximum allowable number of mismatch is 2. Note that the running time
-and space requirement of RECOUNT using mismatch 2 is quadratic compare
-to using mismatch 1. For 2 mismatches option, you may reduce the 
-space and running time requirement by setting the error error probability
-bar under a variable in `recount.pl`.
+**Note:** The Perl wrapper now calls the Python implementation internally,
+so you get all the improvements while maintaining backwards compatibility.
+
+### Important Notes
+
+- Maximum allowable number of mismatches is **2**
+- Running time and space requirement for mismatch=2 is **quadratic** compared to mismatch=1
+- For mismatch=2, you can adjust the `--min-base-error` parameter to reduce space/time requirements
+- The default `min-base-error` of 0.00262689 means RECOUNT only considers neighboring tags
+  with error probability greater than this threshold
 
 
 ## Additional data pre-processing softwares 
@@ -155,6 +192,27 @@ Finally we can run Recount at the final output
 ```
 perl recount.pl [seq-prb-file-LEN-avg]
 ```
+
+## Improvements in Version 2.0
+
+The new Python wrapper (`recount.py`) provides significant improvements over the original Perl implementation:
+
+### Enhanced Features
+- ✅ **Comprehensive error handling** - Clear error messages with specific exit codes
+- ✅ **Input validation** - Automatic checks for file existence, format, and binary availability
+- ✅ **Better logging** - Timestamped logs with multiple verbosity levels
+- ✅ **Flexible configuration** - Command-line options for all parameters
+- ✅ **Dry-run mode** - Test your pipeline without executing
+- ✅ **Progress tracking** - Real-time feedback on pipeline execution
+- ✅ **Time reporting** - Automatic execution time measurement
+- ✅ **Backwards compatibility** - Works with existing Perl scripts
+
+### Files in This Repository
+- `recount.py` - Modern Python wrapper (recommended)
+- `recount.pl` - Backwards-compatible Perl wrapper
+- `recount_legacy.pl` - Original Perl implementation (backup)
+- `src/` - C++ source code and compiled binaries
+- `test-data.txt` / `test-data-small.txt` - Example input files
 
 ## Publication
 

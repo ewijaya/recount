@@ -1,52 +1,42 @@
 #!/usr/bin/perl -w
 #===============================================================================
-# Wrapper for the Binaries
+# Backwards-compatible wrapper for RECOUNT
 #
+# This wrapper maintains the original Perl interface but calls the new
+# Python implementation which provides better error handling and features.
+#
+# For the original legacy version, see: recount_legacy.pl
 #===============================================================================
 use strict;
-use Data::Dumper;
-use Carp;
+use warnings;
 use File::Basename;
-use Cwd;
+use FindBin qw($RealBin);
 
-my $codepath = "./src";
-
-my $file      = $ARGV[0] || "test5tags.txt";
-my $mm        = $ARGV[1] || 1;
-
-# This parameter only affect when mm = 2 
-# This values means that RECOUNT will only consider those
-# neighboring tags with error probability greater than 0.00262689
-my $minBaseEr = 0.00262689; 
-
-
+# Check arguments
 if (scalar @ARGV != 2) {
-     die "perl recount.pl <preprocessed_input> <number_mismatch_to_neighbors>\n";
+    die "Usage: perl recount.pl <preprocessed_input> <number_mismatch_to_neighbors>\n";
 }
 
-my $base      = basename( $file, ".txt" );
-my $dir       = dirname($file)."/";
-my $nb_file   = $dir . $base . ".nb";
-my $prop_file = $dir . $base . ".prop";
-my $nbq_file  = $dir . $base . ".nbq";
-my $cwd       = getcwd;
-#print STDERR "$dir $cwd\n";
+my $input_file = $ARGV[0];
+my $num_mismatches = $ARGV[1];
 
-my $fn    = $codepath ."/FindNeighboursWithQual";
-my $gp    = $codepath ."/GenerateProportion";
-my $em    = $codepath ."/EstimateTrueCount";
+# Path to Python wrapper
+my $python_wrapper = "$RealBin/recount.py";
 
-print STDERR "FindNeighboursWithQual";
-system("$fn $file $mm $minBaseEr");
+# Check if Python wrapper exists
+unless (-f $python_wrapper) {
+    die "ERROR: Python wrapper not found at: $python_wrapper\n";
+}
 
-print STDERR "\nGenerateProportion";
-system("$gp $file > $prop_file");
+# Call the Python wrapper with the same arguments
+# This maintains backwards compatibility while using the new implementation
+my $cmd = "python3 $python_wrapper $input_file $num_mismatches";
 
-print STDERR "\nEstimateTrueCount\n";
-system("$em $file");
+print STDERR "Running RECOUNT pipeline via Python wrapper...\n";
+print STDERR "Command: $cmd\n\n";
 
-print STDERR "\nDone\n";
+# Execute and preserve exit code
+system($cmd);
+my $exit_code = $? >> 8;
 
-unlink($nb_file);
-unlink($prop_file);
-unlink($nbq_file);
+exit($exit_code);
