@@ -30,41 +30,9 @@ void processBlock(string &tag, vector <vector <double> > &grp) {
     Sums.assign(grp[0].size(),0);
 
     for (unsigned i = 0; i < grp.size(); i++) {
-         //prn_vec<double>(grp[i],"\t");
-         //cout << endl;
-         //cout << "GR : " <<  grp[i][0] << endl;
-         Sums[0] += grp[i][0];
-         Sums[1] += grp[i][1];
-         Sums[2] += grp[i][2];
-         Sums[3] += grp[i][3];
-         Sums[4] += grp[i][4];
-         Sums[5] += grp[i][5];
-         Sums[6] += grp[i][6];
-         Sums[7] += grp[i][7];
-         Sums[8] += grp[i][8];
-         Sums[9] += grp[i][9];
-         Sums[10] += grp[i][10];
-         Sums[11] += grp[i][11];
-         Sums[12] += grp[i][12];
-         Sums[13] += grp[i][13];
-         Sums[14] += grp[i][14];
-         Sums[15] += grp[i][15];
-         Sums[16] += grp[i][16];
-         Sums[17] += grp[i][17];
-         Sums[18] += grp[i][18];
-         Sums[19] += grp[i][19];
-         Sums[20] += grp[i][20];
-         Sums[21] += grp[i][21];
-         Sums[22] += grp[i][22];
-         Sums[23] += grp[i][23];
-         Sums[24] += grp[i][24];
-         Sums[25] += grp[i][25];
-         Sums[26] += grp[i][26];
-         Sums[27] += grp[i][27];
-         Sums[28] += grp[i][28];
-         Sums[29] += grp[i][29];
-         Sums[30] += grp[i][30];
-         
+         for (unsigned j = 0; j < grp[i].size(); j++) {
+             Sums[j] += grp[i][j];
+         }
     }
 
     for (unsigned j=0; j <grp[0].size(); j++) {
