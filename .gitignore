@@ -1,0 +1,23 @@
+# Compiled binaries
+src/AverageTagsQuals_*
+!src/AverageTagsQuals_*.cc
+src/EstimateTrueCount
+src/FindNeighboursWithQual
+src/GenerateProportion
+src/PickBaseQual
+
+# Test/output files
+*.nb
+*.nbq
+*.prop
+
+# C++ build artifacts
+*.o
+*.a
+*.so
+*.dylib
+
+# Editor files
+*~
+*.swp
+.DS_Store
