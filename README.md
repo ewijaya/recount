@@ -8,8 +8,7 @@ metagenomic expression analysis.
 
 ## Requirements
 - **C++ compiler** (for compiling the core binaries)
-- **Python 3.6+** (for the enhanced wrapper - optional but recommended)
-- **Perl** (for legacy wrapper - optional)
+- **Python 3.6+** (required for the wrapper)
 
 To handle around 20 million reads of length 34, using 1 Hamming distance
 neighbors you will need at least 10 gigabytes of disk space.
@@ -17,17 +16,17 @@ neighbors you will need at least 10 gigabytes of disk space.
 
 ## Installation
 
-1. Compile the C++ binaries:
-   ```bash
-   cd src/
-   make
-   ```
+Compile the C++ binaries:
+```bash
+cd src/
+make
+```
 
 This will create two groups of programs:
 - **Core RECOUNT components:** `FindNeighboursWithQual`, `GenerateProportion`, and `EstimateTrueCount`
 - **Preprocessing tools:** `AverageTagsQuals_*`, `PickBaseQual`, etc.
 
-2. The Python and Perl wrappers are ready to use immediately (no compilation needed)
+The Python wrapper (`recount.py`) is ready to use immediately (no compilation needed).
 
 
 ## Input format 
@@ -48,12 +47,10 @@ in the corresponding read.
 
 ## Usage
 
-### Python Wrapper (Recommended)
-
-The enhanced Python wrapper provides better error handling, logging, and flexibility:
+### Basic Usage
 
 ```bash
-# Basic usage
+# Basic command
 python3 recount.py <input_file> <num_mismatches>
 
 # Examples
@@ -63,7 +60,8 @@ python3 recount.py data.txt 1 --keep-temp --min-base-error 0.001
 python3 recount.py data.txt 2 --output-dir ./results
 ```
 
-**Available options:**
+### Available Options
+
 - `--verbose, -v`: Enable detailed logging for debugging
 - `--keep-temp`: Keep temporary files (.nb, .prop, .nbq) after completion
 - `--min-base-error FLOAT`: Minimum base error probability (default: 0.00262689)
@@ -71,20 +69,6 @@ python3 recount.py data.txt 2 --output-dir ./results
 - `--output-dir PATH`: Directory for output files (default: same as input)
 - `--dry-run`: Show what would be executed without running
 - `--help`: Show complete help message
-
-### Perl Wrapper (Backwards Compatible)
-
-The original Perl interface is maintained for backwards compatibility:
-
-```bash
-perl recount.pl <input_file> <num_mismatches>
-
-# Example
-perl recount.pl test-data.txt 1
-```
-
-**Note:** The Perl wrapper now calls the Python implementation internally,
-so you get all the improvements while maintaining backwards compatibility.
 
 ### Important Notes
 
@@ -187,15 +171,15 @@ And next we need to create the average version of the reads
 ./AverageTagQuals_LEN [seq-prb-file-LEN]  > [seq-prb-file-LEN-avg]
 ```
 
-Finally we can run Recount at the final output 
+Finally we can run RECOUNT at the final output
 
 ```
-perl recount.pl [seq-prb-file-LEN-avg]
+python3 recount.py [seq-prb-file-LEN-avg] 1
 ```
 
 ## Improvements in Version 2.0
 
-The new Python wrapper (`recount.py`) provides significant improvements over the original Perl implementation:
+The Python wrapper (`recount.py`) provides significant improvements over the original implementation:
 
 ### Enhanced Features
 - ✅ **Comprehensive error handling** - Clear error messages with specific exit codes
@@ -205,12 +189,10 @@ The new Python wrapper (`recount.py`) provides significant improvements over the
 - ✅ **Dry-run mode** - Test your pipeline without executing
 - ✅ **Progress tracking** - Real-time feedback on pipeline execution
 - ✅ **Time reporting** - Automatic execution time measurement
-- ✅ **Backwards compatibility** - Works with existing Perl scripts
+- ✅ **Modern Python implementation** - Clean, maintainable code with proper structure
 
 ### Files in This Repository
-- `recount.py` - Modern Python wrapper (recommended)
-- `recount.pl` - Backwards-compatible Perl wrapper
-- `recount_legacy.pl` - Original Perl implementation (backup)
+- `recount.py` - Python wrapper for RECOUNT pipeline
 - `src/` - C++ source code and compiled binaries
 - `test-data.txt` / `test-data-small.txt` - Example input files
 
