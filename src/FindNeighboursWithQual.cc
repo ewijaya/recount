@@ -82,11 +82,10 @@ double normalizeQualByMismatches1Tag(std::vector<int>&SeedTag,std::vector<int> N
 } 
 
 
-vector <int> neighbors(vector<int>& arg, int posNo, int baseNo) {
+vector <int> neighbors(const vector<int>& arg, int posNo, int baseNo) {
     // pass base position and return neighbors
-    
-    vector <int> transfVec;
-    transfVec = arg;
+
+    vector <int> transfVec = arg;
     transfVec[posNo] = baseNo;
 
     return transfVec;
@@ -94,9 +93,10 @@ vector <int> neighbors(vector<int>& arg, int posNo, int baseNo) {
 }
 
 
-string Vec2Str (vector <int> NTg) {
+string Vec2Str (const vector <int>& NTg) {
 
-    string StTg = "";
+    string StTg;
+    StTg.reserve(NTg.size());
     for (unsigned i = 0; i < NTg.size(); i++) {
          StTg += ConvertInt2String(NTg[i]);
     }
@@ -146,6 +146,12 @@ int main  ( int arg_count, char *arg_vec[] ) {
 
     vector<string>  DNAStrings;
 
+    // Create lookup table once outside loop for better performance
+    map<char, int> lookup;
+    lookup['A'] = 0;
+    lookup['C'] = 1;
+    lookup['G'] = 2;
+    lookup['T'] = 3;
 
     if (myfile.is_open())
     {
@@ -159,8 +165,7 @@ int main  ( int arg_count, char *arg_vec[] ) {
                 string DNA;
                 double qualSc;
                 double rawCount;
-                vector<double> qualBase;
-                
+
                  // ss >> rawCount >> DNA;
                 ss >> rawCount >> DNA;
 
@@ -168,8 +173,8 @@ int main  ( int arg_count, char *arg_vec[] ) {
                     rawCount = rawCount + 0.00001;
                 }
 
-                string dnaTag;
-                dnaTag = DNA;
+                vector<double> qualBase;
+                qualBase.reserve(DNA.size());
 
                 while (ss >> qualSc) {
                     qualBase.push_back(qualSc);
@@ -178,17 +183,12 @@ int main  ( int arg_count, char *arg_vec[] ) {
             // we process string line by line here
             // avoiding slurping with push_back
 
-                nbFile <<  DNA << "\t"; 
-                nbqFile <<  DNA << "\t"; 
-                
-            //Convert string to numeric
-            map<char, int> lookup;
-                lookup['A'] = 0;
-                lookup['C'] = 1;
-                lookup['G'] = 2;
-                lookup['T'] = 3;
+                nbFile <<  DNA << "\t";
+                nbqFile <<  DNA << "\t";
 
+            //Convert string to numeric
                 vector<int> numTag;
+                numTag.reserve(DNA.size());
 
                for (unsigned j=0; j<DNA.size(); j++) {
                    int cb = lookup[DNA[j]]; // converted base

@@ -1,4 +1,4 @@
-CXX = g++ -O2 -Wall 
+CXX = g++ -O3 -march=native -flto -Wall 
 
 all: GenerateProportion EstimateTrueCount FindNeighboursWithQual \
 	AverageTagsQuals_27 AverageTagsQuals_36 PickBaseQual \
