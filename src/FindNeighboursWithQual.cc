@@ -146,6 +146,12 @@ int main  ( int arg_count, char *arg_vec[] ) {
 
     vector<string>  DNAStrings;
 
+    // Optimized: Create lookup map once before loop instead of recreating for each line
+    map<char, int> lookup;
+    lookup['A'] = 0;
+    lookup['C'] = 1;
+    lookup['G'] = 2;
+    lookup['T'] = 3;
 
     if (myfile.is_open())
     {
@@ -160,7 +166,7 @@ int main  ( int arg_count, char *arg_vec[] ) {
                 double qualSc;
                 double rawCount;
                 vector<double> qualBase;
-                
+
                  // ss >> rawCount >> DNA;
                 ss >> rawCount >> DNA;
 
@@ -178,15 +184,8 @@ int main  ( int arg_count, char *arg_vec[] ) {
             // we process string line by line here
             // avoiding slurping with push_back
 
-                nbFile <<  DNA << "\t"; 
-                nbqFile <<  DNA << "\t"; 
-                
-            //Convert string to numeric
-            map<char, int> lookup;
-                lookup['A'] = 0;
-                lookup['C'] = 1;
-                lookup['G'] = 2;
-                lookup['T'] = 3;
+                nbFile <<  DNA << "\t";
+                nbqFile <<  DNA << "\t";
 
                 vector<int> numTag;
 
