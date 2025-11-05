@@ -1,0 +1,28 @@
+# Compiled executables
+src/AverageTagsQuals
+src/AverageTagsQuals_tag_prb
+src/EstimateTrueCount
+src/FindNeighboursWithQual
+src/GenerateProportion
+src/PickBaseQual
+src/AverageTagsQuals_*
+!src/AverageTagsQuals_*.cc
+
+# Object files
+*.o
+*.obj
+
+# Compiled libraries
+*.a
+*.so
+*.dylib
+
+# Build artifacts
+*.out
+*.app
+
+# Temporary files
+*.swp
+*.swo
+*~
+.DS_Store

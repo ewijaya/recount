@@ -1,6 +1,7 @@
-CXX = g++ -O2 -Wall 
+CXX = g++ -O3 -Wall 
 
 all: GenerateProportion EstimateTrueCount FindNeighboursWithQual \
+	AverageTagsQuals AverageTagsQuals_tag_prb \
 	AverageTagsQuals_27 AverageTagsQuals_36 PickBaseQual \
     AverageTagsQuals_17 \
     AverageTagsQuals_24 \
@@ -54,6 +55,13 @@ FindNeighboursWithQual: FindNeighboursWithQual.cc Utilities.cc
 	$(CXX)   $^ -o $@
 
 GenerateProportion: GenerateProportion.cc Utilities.cc
+	$(CXX)   $^ -o $@
+
+# Optimized unified versions (Phase 3 optimization)
+AverageTagsQuals: AverageTagsQuals.cc
+	$(CXX)   $^ -o $@
+
+AverageTagsQuals_tag_prb: AverageTagsQuals_tag_prb.cc
 	$(CXX)   $^ -o $@
 
 PickBaseQual: PickBaseQual.cc 
